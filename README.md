@@ -142,28 +142,57 @@ Price is treated as a **decision variable**, not a prediction target. The system
 
 ```
 flipkart_competitors/
-├── app.py                      # FastAPI application
-├── main.py                     # Entry point
-├── daily_pipeline.py           # Automated daily workflow
-├── requirements.txt            # Python dependencies
-├── dockerfile                  # Docker configuration
+├── app.py                          # FastAPI application
+├── main.py                         # Entry point/main script
+├── dockerfile                      # Docker configuration
+├── package.json                    # Node.js dependencies (if applicable)
+├── requirements.txt                # Python dependencies
+├── project_steps.txt               # Project documentation & steps
+│
 ├── .github/
-│   └── workflows/              # GitHub Actions CI/CD
-├── data/                       # Raw and processed data
-│   ├── raw/                    # Scraped data
-│   └── processed/              # Cleaned features
-├── model/                      # Trained models
-│   └── xgboost_model.pkl       # Serialized XGBoost model
-├── notebooks/                  # Jupyter notebooks for analysis
-│   ├── eda.ipynb               # Exploratory Data Analysis
-│   └── model_evaluation.ipynb   # Model performance analysis
-├── process/                    # Processing scripts
-│   ├── scraper.py              # Web scraping logic
-│   ├── cleaner.py              # Data cleaning
-│   ├── feature_engineer.py     # Feature engineering
-│   └── optimizer.py            # Price optimization logic
-└── README.md                   # This file
+│   └── workflows/
+│       └── ci-cd.yml               # GitHub Actions CI/CD pipeline
+│
+├── data/                           # Data directory
+│   ├── create_db_schema.py         # Database schema initialization
+│   ├── predict.csv                 # Prediction results
+│   └── sales.db                    # SQLite database
+│
+├── model/                          # Trained ML models
+│   ├── basemodel.py                # Base model architecture
+│   ├── customer.pkl                # Serialized customer model
+│   ├── encoder.pkl                 # Feature encoder
+│   ├── scaler.pkl                  # Data scaler
+│   ├── next_day_model_train.py     # Model training script
+│   └── next_day_predict.py         # Model prediction script
+│
+├── notebooks/                      # Jupyter notebooks for analysis
+│   ├── explanation.txt             # Analysis explanations
+│   ├── sales.db                    # Analysis database
+│   ├── sql_data_cleaning.ipynb     # SQL data cleaning notebook
+│   ├── sql_database_setup.ipynb    # Database setup notebook
+│   ├── temp_data.ipynb             # Temporary data analysis
+│   └── web_scrap_data.ipynb        # Web scraping notebook
+│
+├── process/                        # Data & prediction processing scripts
+│   ├── daily_pipeline.py           # Automated daily workflow orchestrator
+│   ├── data_cleaning.py            # Data cleaning & validation
+│   ├── predict_order.py            # Order/demand prediction logic
+│   └── __pycache__/                # Python cache
+│
+└── __pycache__/                    # Python cache files
 ```
+
+### Key Files Overview
+
+- **app.py**: FastAPI application serving predictions via REST API
+- **main.py**: Main entry point for running the application
+- **daily_pipeline.py**: Orchestrates the complete ML workflow (scraping → cleaning → predicting)
+- **next_day_model_train.py**: Trains the XGBoost model on historical data
+- **next_day_predict.py**: Generates next-day demand predictions
+- **data_cleaning.py**: Cleans and validates raw data
+- **create_db_schema.py**: Sets up SQLite database schema
+- **ci-cd.yml**: GitHub Actions workflow for automated testing & deployment
 
 ---
 
