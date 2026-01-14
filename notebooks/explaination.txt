@@ -1,0 +1,145 @@
+Simple Explanation: How We Get Next Day Demand & Price
+First, One Important Truth (Please Read)
+
+👉 We cannot know the future.
+👉 We can only make a reasonable guess based on past days.
+
+That is exactly what companies do.
+
+PART 1 — What Is “Demand” in Our Project?
+
+We do NOT know real sales, so we use a trick.
+
+Our rule:
+Demand ≈ Number of new reviews in a day
+
+Example:
+Day	Reviews
+Day 1	100
+Day 2	108
+
+So:
+
+Demand on Day 2 = 108 − 100 = 8
+
+
+That means ~8 people bought the product (approx).
+
+PART 2 — How We Guess Tomorrow’s Demand (Very Easy)
+
+We just look at recent days and take the average.
+
+Example (7 days demand):
+[6, 7, 8, 9, 7, 8, 7]
+
+Our guess for tomorrow:
+(6+7+8+9+7+8+7) / 7 = 7.4
+
+
+So we say:
+
+👉 Tomorrow’s demand ≈ 7 people
+
+This is called a baseline prediction.
+
+No ML. Just logic.
+
+PART 3 — How We Decide Tomorrow’s Price (Very Easy)
+
+We do NOT predict price.
+We try few prices and see which gives more money.
+
+Step 1 — Take Today’s Price
+
+Example:
+
+Today price = ₹60,000
+
+Step 2 — Try 3 Prices
+Price Option
+₹57,000 (lower)
+₹60,000 (same)
+₹63,000 (higher)
+Step 3 — Simple Rule (Important)
+
+We assume:
+
+Lower price → more demand
+
+Higher price → less demand
+
+Example rule:
+
+If price goes down 5% → demand goes up 10%
+
+
+This is a temporary assumption.
+
+Step 4 — Calculate Money (Revenue)
+Price	Demand	Money
+57,000	8	456,000
+60,000	7	420,000
+63,000	5	315,000
+Step 5 — Choose Best Price
+
+The price that gives maximum money is:
+
+👉 ₹57,000
+
+So this becomes tomorrow’s recommended price.
+
+PART 4 — What We Store in Database
+
+Every day, we store:
+
+1️⃣ Raw Data
+
+price
+
+reviews
+
+rating
+
+2️⃣ Calculated Data
+
+daily demand (review difference)
+
+predicted next day demand
+
+recommended price
+
+PART 5 — Very Important Rule (Remember This)
+With only 7 days data:
+
+❌ Do NOT use ML
+✅ Use simple average logic
+
+After ~30 days:
+
+✅ Use ML model
+❌ Stop using assumptions
+
+PART 6 — One-Line Memory Rule (SAVE THIS)
+
+First collect data → then take average → then try few prices → pick best → later replace logic with ML
+
+That is the whole project.
+
+PART 7 — What You Will Say in Interviews (Simple)
+
+“Initially, I used average-based forecasting and rule-based price selection. As more data became available, I switched to ML-based demand prediction.”
+
+This is a perfect answer.
+
+PART 8 — What You Should Do Next (Very Simple)
+Your next coding step:
+
+Load data from SQL
+
+Calculate daily demand
+
+Take last 7 days average
+
+Try 3 prices
+
+Save result

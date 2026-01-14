@@ -1,0 +1,291 @@
+COMPLETE PROJECT STEPS (FROM NOW TO FINISH)
+
+You already completed:
+✅ Scraping
+✅ Database schema
+✅ Data inserted into SQL
+
+Now we continue correctly.
+
+PHASE 1 — DAILY DATA PIPELINE (FOUNDATION)
+STEP 1 — Daily Scraping (Already doing, continue forever)
+
+Every day:
+
+Scrape same Flipkart URL(s)
+
+Get:
+
+price
+
+discount
+
+rating
+
+reviews
+
+stock
+
+Insert new row into SQL
+
+Never update old rows
+
+One row = one day
+
+👉 This builds history (most important asset).
+
+STEP 2 — Load SQL → Pandas (Daily)
+
+Read SQL table into Pandas
+
+This is your ETL entry point
+
+SQL → Pandas → Cleaning → Features → Back to SQL
+
+PHASE 2 — ETL PIPELINE (CORE ENGINE)
+STEP 3 — Data Cleaning
+
+After loading into Pandas:
+
+Convert data types (price, rating, reviews)
+
+Sort by product + date
+
+Remove duplicate rows
+
+Ensure:
+
+price > 0
+
+reviews ≥ 0
+
+rating between 1–5
+
+👉 This prevents silent bugs.
+
+STEP 4 — Create Demand (MOST IMPORTANT)
+
+Demand = new reviews per day
+
+daily_demand = reviews(today) − reviews(yesterday)
+
+
+First day = 0
+
+Negative values → make 0
+
+This is your target variable.
+
+STEP 5 — Create Price Features
+
+From price:
+
+price_change (today − yesterday)
+
+price_percent_change
+
+discount_flag (yes/no)
+
+These explain why demand changes.
+
+STEP 6 — Save Features Back to SQL
+
+Create a new table:
+
+daily_features
+
+
+Store:
+
+product_id
+
+date
+
+selling_price
+
+daily_demand
+
+price_change
+
+discount_flag
+
+👉 This becomes your ML-ready dataset.
+
+PHASE 3 — BASELINE PREDICTION (WITH 7 DAYS DATA)
+STEP 7 — Predict Next Day Demand (NO ML)
+
+With only 7 days, use average.
+
+next_day_demand =
+average(daily_demand of last 7 days)
+
+
+This is honest and correct.
+
+STEP 8 — Decide Next Day Price (RULE-BASED)
+
+You do NOT predict price.
+You try few prices and pick best.
+
+Example:
+
+Today price
+
+5% lower
+
+5% higher
+
+For each price:
+
+revenue = price × predicted_demand
+
+
+Pick price with maximum revenue.
+
+STEP 9 — Store Predictions
+
+Create table:
+
+predictions
+
+
+Store:
+
+date
+
+predicted_demand
+
+recommended_price
+
+method = "baseline"
+
+PHASE 4 — AUTOMATION (REAL MLOps)
+STEP 10 — Automate Everything
+
+Use:
+
+Windows Task Scheduler / cron
+
+Daily job:
+
+Scrape
+
+Insert SQL
+
+Run ETL
+
+Generate prediction
+
+Save result
+
+👉 No manual work.
+
+PHASE 5 — ML (ONLY AFTER ~30 DAYS)
+STEP 11 — Train Demand ML Model
+
+After ~30 days data:
+
+Inputs:
+
+price
+
+discount
+
+past demand
+
+rolling averages
+
+Target:
+
+daily_demand
+
+Train:
+
+Linear Regression / XGBoost
+
+STEP 12 — Replace Baseline with ML
+
+Logic:
+
+if days < 30:
+    use baseline
+else:
+    use ML model
+
+
+This is production-grade logic.
+
+PHASE 6 — PRICE OPTIMIZATION (ADVANCED)
+STEP 13 — ML-Based Price Recommendation
+
+Use ML to predict demand for each price option
+
+Pick price with max revenue
+
+This becomes real pricing intelligence.
+
+PHASE 7 — API & DASHBOARD
+STEP 14 — FastAPI
+
+Endpoints:
+
+/predict-demand
+
+/recommend-price
+
+Return:
+
+next day demand
+
+recommended price
+
+method used
+
+STEP 15 — Streamlit Dashboard
+
+Show:
+
+Price history
+
+Review growth
+
+Demand prediction
+
+Recommended price
+
+PHASE 8 — DEPLOYMENT (FINAL)
+STEP 16 — Docker
+
+Dockerize:
+
+Scraper
+
+ETL
+
+API
+
+Dashboard
+
+STEP 17 — AWS Deployment
+
+EC2
+
+RDS
+
+Environment variables
+
+(Optional)
+
+CI/CD later
+
+ONE-PAGE MEMORY RULE (SAVE THIS)
+
+Collect data daily → clean → calculate demand → take average → try prices → pick best → later replace with ML
+
+That is your entire project logic.
+
+WHAT YOU CAN SAY IN INTERVIEWS (VERY IMPORTANT)
+
+“I built a full pipeline that continuously collects e-commerce data, derives a demand proxy using review velocity, applies baseline forecasting initially, and later transitions to ML-based demand prediction and price optimization.”
+
+This is strong.
