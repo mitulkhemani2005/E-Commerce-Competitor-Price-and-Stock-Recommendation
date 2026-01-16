@@ -148,7 +148,7 @@ flipkart_competitors/
 ├── package.json                    # Node.js dependencies (if applicable)
 ├── requirements.txt                # Python dependencies
 ├── project_steps.txt               # Project documentation & steps
-│
+├── daily_pipeline.py               # Automated daily workflow orchestrator
 ├── .github/
 │   └── workflows/
 │       └── ci-cd.yml               # GitHub Actions CI/CD pipeline
@@ -175,7 +175,6 @@ flipkart_competitors/
 │   └── web_scrap_data.ipynb        # Web scraping notebook
 │
 ├── process/                        # Data & prediction processing scripts
-│   ├── daily_pipeline.py           # Automated daily workflow orchestrator
 │   ├── data_cleaning.py            # Data cleaning & validation
 │   ├── predict_order.py            # Order/demand prediction logic
 │   └── __pycache__/                # Python cache
